@@ -328,7 +328,52 @@ plot( pirates$age, pirates$parrots,
 yarrr::piratepal("basel",            
                  plot.result = TRUE,
                  trans = .1)
+installed.packages('yarrr')
+yarrr::piratepal("all")
 
-# Nothing like a fresh start, writing from Mac
+yarrr::piratepal("evildead",            
+                 plot.result = TRUE,
+                 trans = .1) 
 
-# And this is a new addition from Win
+google.cols <- yarrr::piratepal(palette = "google", 
+                         trans = .2)
+barplot(height = 1:5,
+        col = google.cols,
+        border = "white",
+        main = "Barplot with the google palette")
+
+library("RColorBrewer")
+display.brewer.all()
+
+
+#Chapter 13 hypothesis testing
+library(yarrr)
+t.test(x = pirates$age, 
+       mu = 30)
+
+sex.ttest <- t.test(formula = tattoos ~ sex,
+                    data = pirates, 
+                    subset = sex %in% c("male", "female"))
+sex.ttest # Print result
+
+## Access specific values from test
+sex.ttest$statistic
+sex.ttest$p.value
+sex.ttest$conf.int
+cor.test(formula = ~ age + height,
+         data = pirates)
+
+# Body piercing data
+american.bp <- c(3, 5, 2, 1, 4, 4, 6, 3, 5, 4)
+european.bp <- c(6, 5, 7, 7, 6, 3, 4, 6, 5, 4)
+
+# Store data in a dataframe
+bp.survey <- data.frame("bp" = c(american.bp, european.bp),
+                        "group" = rep(c("American", "European"), each = 10),
+                        stringsAsFactors = FALSE)
+yarrr::pirateplot(bp ~ group,
+                  data = bp.survey,
+                  main = "Body Piercing Survey",
+                  ylab = "Number of Body Piercings",
+                  xlab = "Group", 
+                  theme = 2, point.o = .8, cap.beans = TRUE)
