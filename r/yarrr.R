@@ -329,23 +329,4 @@ yarrr::piratepal("basel",
                  plot.result = TRUE,
                  trans = .1)
 
-
-here is a new code written on Mac
-
-I have added some code here again.
-
-However this is the latest addition on Windows.
-
-lets write a new addition here on Mac.
-
-another code on mac.
-
-lets try a commit from windows.
-
-ok one from here Mac
-
-another from Mac
-
-here one from windows this time round()
-
-nice work made guess this is working already.
+# Nothing like a fresh start, writing from Mac
