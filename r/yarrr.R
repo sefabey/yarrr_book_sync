@@ -519,3 +519,117 @@ genre.sequel.htest
 apa(genre.sequel.htest)
 
 # ch14 ANOVA
+
+# 4 Steps to conduct an ANOVA
+
+# Step 1: Create an aov object
+mod.aov <- aov(formula = y ~ x1 + x2 + ...,
+               data = data)
+# y=dep variable
+# x1= x2...xn independent variables
+
+
+# Step 2: Look at a summary of the aov object
+summary(mod.aov)
+
+# Step 3: Calculate post-hoc tests (if necessary)
+TukeyHSD(mod.aov)
+
+# Step 4: Look at coefficients (if necessary)
+mod.lm <- lm(formula = y ~ x1 + x2 + ...,
+             data = data)
+
+summary(mod.lm)
+
+
+# One-way ANOVA example
+
+library(yarrr)
+
+str(poopdeck)
+
+yarrr::pirateplot(time ~ cleaner, 
+                  data = poopdeck, 
+                  theme = 2, 
+                  cap.beans = TRUE,
+                  main = "formula = time ~ cleaner")
+?pirateplot
+
+# Step 1: aov object with time as DV and cleaner as IV
+cleaner.aov <- aov(formula = time ~ cleaner,
+                   data = poopdeck) 
+
+# Step 2: Look at the summary of the anova object
+summary(cleaner.aov)
+
+# Now we know that statistically there is a difference between groups but
+# we do not know which group is the different one. 
+# To answer this, we need to conduct a post-hoc test.
+
+# Step 3: Conduct post-hoc tests
+TukeyHSD(cleaner.aov) 
+
+# c is learly different
+
+# Step 4: Create a regression object
+cleaner.lm <- lm(formula = time ~ cleaner,
+                 data = poopdeck)
+
+# Show summary
+summary(cleaner.lm)
+
+# Ex: Two-way ANOVA
+
+# Step 1: Create ANOVA object with aov()
+cleaner.type.aov <- aov(formula = time ~ cleaner + type,
+                        data = poopdeck)
+# Step 2: Get ANOVA table with summary()
+summary(cleaner.type.aov)
+# Step 3: Conduct post-hoc tests
+TukeyHSD(cleaner.type.aov)
+
+# The only non-significant group difference we found is between cleaner b and cleaner a. All other comparisons were significant.
+
+# Step 4: Look at regression coefficients
+cleaner.type.lm <- lm(formula = time ~ cleaner + type,
+                      data = poopdeck)
+
+summary(cleaner.type.lm)
+# ANOVA with interactions
+# Does the effect of cleaners depend on the type of poop they are used to clean?
+
+# Step 1: Create ANOVA object with interactions
+cleaner.type.int.aov <- aov(formula = time ~ cleaner * type,
+                            data = poopdeck)
+
+# Step 2: Look at summary table
+summary(cleaner.type.int.aov)
+
+
+# To understand the nature of the difference, we’ll look at the regression coefficients from a regression object:
+     
+     # Step 4: Calculate regression coefficients
+     cleaner.type.int.lm <- lm(formula = time ~ cleaner * type,
+                               data = poopdeck)
+
+summary(cleaner.type.int.lm)
+
+# Again, to interpret this table, we first need to know what the default values are. 
+# We can tell this from the coefficients that are ‘missing’ from the table. 
+# Because I don’t see terms for cleanera or typeparrot, this means that cleaner = "a"
+# and type = "parrot" are the defaults. Again, we can interpret the coefficients as 
+# differences between a level and the default. It looks like for parrot poop, 
+# cleaners b and c both take more time than cleaner a (the default). Additionally, 
+# shark poop tends to take much longer than parrot poop to clean (the estimate for 
+#                                                                 typeshark is positive).
+# 
+# The interaction terms tell us how the effect of cleaners changes when one is cleaning
+# shark poop. The negative estimate (-16.96) for cleanerb:typeshark means that 
+# cleaner b is, on average 16.96 minutes faster when cleaning shark poop compared to 
+# parrot poop. Because the previous estimate for cleaner b (for parrot poop) was just 8.06,
+# this suggests that cleaner b is slower than cleaner a for parrot poop, but faster than 
+# cleaner a for shark poop. Same thing for cleaner c which simply has stronger effects in 
+# both directions.
+
+# Type I, Type II, and Type III ANOVAs
+
