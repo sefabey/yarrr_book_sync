@@ -377,3 +377,145 @@ yarrr::pirateplot(bp ~ group,
                   ylab = "Number of Body Piercings",
                   xlab = "Group", 
                   theme = 2, point.o = .8, cap.beans = TRUE)
+
+summary(american.bp)
+summary(european.bp)
+
+
+# Conduct a two-sided t-test comparing the vectors american.bp and european.bp
+#  and save the results in an object called bp.test
+bp.test <- t.test(x = american.bp,
+                  y = european.bp,
+                  alternative = "two.sided")
+
+# Print the main results
+bp.test
+## 
+##  Welch Two Sample t-test
+## 
+## data:  american.bp and european.bp
+## t = -3, df = 20, p-value = 0.02
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -2.93 -0.27
+## sample estimates:
+## mean of x mean of y 
+##       3.7       5.3
+# library(yarrr)
+height.htest <- t.test(formula = height ~ sex,
+                       data = pirates,
+                       subset = sex %in% c("male", "female"))
+height.htest
+
+
+# Compare the tattoos of pirates aged 29 and 30:
+tatage.htest <- t.test(formula = tattoos ~ age,
+                       data = pirates,
+                       subset = age %in% c(29, 30))  # Compare age of 29 to 30
+
+tatage.htest
+
+
+# Is there an effect of college on # of tattoos
+#  only for female pirates?
+
+t.test(formula = tattoos ~ college,
+       data = pirates,
+       subset = sex == "female")
+
+age.parrot.cor <- cor.test(formula= ~age+parrots,
+                           data = pirates )
+
+age.parrot.cor
+
+# alternatively
+
+# Method 2: Vector notation
+age.parrots.ctest <- cor.test(x = pirates$age,
+                              y = pirates$parrots)
+age.parrots.ctest
+names(age.parrots.ctest)
+
+
+
+# Is there a correlation between age and 
+#  number parrots ONLY for female pirates?
+
+cor.test(formula = ~ age + parrots,
+         data = pirates,
+         subset = sex == "female")
+
+table(pirates$college)
+
+college.chitest <- chisq.test(x = table(pirates$college))
+college.chitest
+
+
+table(pirates$eyepatch, 
+      pirates$college)
+
+# Is there a relationship between a pirate's
+# college and whether or not they wear an eyepatch?
+
+colpatch.cstest <- chisq.test(x = table(pirates$college,
+                                        pirates$eyepatch))
+
+colpatch.cstest
+## 
+
+test.result <- t.test(age ~ headband,
+                      data = pirates)
+test.result
+
+yarrr::apa(test.result)
+
+age.parrots.ctest <- cor.test(formula = ~ age + parrots,
+                              data = pirates)
+age.parrots.ctest
+yarrr::apa(age.parrots.ctest)
+
+
+
+beard.sex.htest <- t.test(formula = beard.length ~ sex,
+                          subset = sex %in% c("male", "female"),
+                          data = pirates)
+beard.sex.htest
+str(pirates)
+
+
+
+table(pirates$fav.pixar)
+
+pirates2 <- filter(pirates, fav.pixar  %in%  c("Up","Inside Out") )
+                   
+pirates2
+
+contingency.table <- table(pirates2$fav.pixar, pirates2$eyepatch)
+
+age.patch.chitest <- chisq.test(contingency.table)
+age.patch.chitest
+apa(age.patch.chitest)
+
+cor.test(formula= ~ time+budget ,
+        data=movies)
+
+
+revenue.rating.htest <- t.test(formula = revenue.all ~ rating,
+                               subset = rating %in% c("R", "PG-13"),
+                               data = movies)
+revenue.rating.htest
+apa(revenue.rating.htest)
+
+genre.table <- table(movies$genre)
+genre.table
+genre.chisqtest <- chisq.test(genre.table)
+genre.chisqtest
+apa(genre.chisqtest)
+
+genre.sequel.table <- table(movies$genre, movies$sequel)
+genre.sequel.table
+genre.sequel.htest <- chisq.test(genre.sequel.table)
+genre.sequel.htest
+apa(genre.sequel.htest)
+
+# ch14 ANOVA
