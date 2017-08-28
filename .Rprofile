@@ -1,7 +1,6 @@
-cat("Welcome to this project.\n
-This project is about me following the YARRR book.\n
-Also some git learning")
+library(tidyverse, quietly=T)
+library(yarrr, quietly=T)
 
-
-library(tidyverse)
-library(yarrr)
+cat("Welcome.\n
+In this project, I am following the YARRR book.\n
+There is also some git included as well")

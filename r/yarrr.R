@@ -633,3 +633,4 @@ summary(cleaner.type.int.lm)
 
 # Type I, Type II, and Type III ANOVAs
 
+
